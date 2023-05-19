@@ -19,19 +19,19 @@ const getCategoriesPaginated = async (req = request, res = response) => {
 		// get the query params
 		const { limit = 5, offset = 0 } = req.query;
 
-		// define de status of the categorys to get
+		// define de status of the categories to get
 		const query = { status: true };
 
-		// get the count and the categorys
-		const [total, categorys] = await Promise.all([
+		// get the count and the categories
+		const [total, categories] = await Promise.all([
 			Category.countDocuments(query),
 			Category.find(query).populate("user").skip(offset).limit(limit),
 		]);
 
-		// return the total and categorys
+		// return the total and categories
 		res.json({
 			total,
-			categorys,
+			categories,
 		});
 	} catch (error) {
 		res.status(400).json({
