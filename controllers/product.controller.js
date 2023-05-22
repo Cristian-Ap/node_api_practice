@@ -44,6 +44,29 @@ const getProductsPaginated = async(req = request, res = response) => {
 	}
 }
 
+const searchProduct = async(req = request, res = response) => {
+	try {
+		const { term } = req.params;
+
+		const regex = new RegExp( term, 'i')
+
+		const query = {
+			status: true,
+			name: regex
+		}
+
+		const products = await Product.find(query);
+
+		res.status(200).json(products);
+	} catch (error) {
+		res.status(400).json({
+			message:
+				"An error has ocurred searching the products in the controller",
+			error,
+		});
+	}
+}
+
 const getOneProduct = async(req = request, res = response) => {
 	try {
 		const { id } = req.params;
@@ -90,7 +113,7 @@ const createProduct = async (req = requests, res = response) => {
 	} catch (error) {
 		res.status(400).json({
 			message:
-				"An error has ocurred creasting the products in the controller",
+				"An error has ocurred creating the product in the controller",
 			error,
 		});
 	}
@@ -154,6 +177,7 @@ module.exports = {
 	getProducts,
 	getProductsPaginated,
 	getOneProduct,
+	searchProduct,
 	createProduct,
 	updateProduct,
 	deleteProduct

@@ -28,6 +28,12 @@ router.get('/:id', [
     ErrorHandler
 ], prodController.getOneProduct);
 
+router.get('/search/:term', [
+    validateJWT,
+    check("term", "search term is required").not().isEmpty(),
+    ErrorHandler
+], prodController.searchProduct);
+
 router.post('/', [
     validateJWT,
     check("name", "name is required").not().isEmpty(),
